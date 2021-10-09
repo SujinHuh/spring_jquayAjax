@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<html lang="en">
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F2D7D5;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">🌺</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link" href="#">Features</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="card text-center">
+            <h5 class="card-header">Data transmission using ajax</h5>
+            <div class="card-body">
+                <h5 class="card-title">hello! 😀 </h5>
+                <p class="card-text">
+                    Enter the text you want to send and click the button.</p>
+                <form class="card-text">
+                    <div class="col-12">
+                        <div class="input-group mb-3">
+                            <input id="input" placeholder="Please enter text" type="text" class="form-control">
+                            <button class="btn btn-outline-secondary" type="button" onclick="dataSend()">submit</button>
+                        </div>
+                    </div>
+                    <button id="pressMe">Press Me</button>
+                    <button id="create">new</button>
+
+                    <div id="resultDiv">
+                        <p th:if="${msg}!=null" th:text="${msg}"></p>
+                    </div>
+                    <h3>Ajax 예제 입니다..</h3>
+
+                    <h3>1. 데이터 전송</h3>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input id="input" placeholder="데이터를 입력해주세요..">
+                            </div>
+                        </div>
+                    </div>
+                    <input value="등록" type="button" onclick="dataPend()">
+                    <div id="resultDive">
+                        <p th:if="${msg}!=null" th:text="${msg}"></p>
+                    </div>
+
+                    <h2>
+                        Start!
+                    </h2>
+                    <body>
+                    <body>
+                    <button id="btn3">stringify</button>
+                    <div id="result"></div>
+                    </body>
+                    </body>
+
+                <a href="#" class="btn" style="background-color: #EBDEF0">Go github</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#btn3').on('click', function(){
+        var form = {
+            name: "jamong",
+            age: 23
+        }
+        $.ajax({
+            url: " stringify",
+            type: "POST",
+            data: JSON.stringify(form),
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function(data){
+                var txt = data.name + data.age;
+                $('#result').text(txt);
+            },
+            error: function(){
+                alert("stringify err");
+            }
+        },100);
+    });
+
+    $(function () {
+        $("#create").on("click", function () {
+            $("div").html("<button id='newButton'>ok</button>");
+        });
+        $("body").on("click", "#newButton", function (event) {
+            console.log("click");
+        });
+    });
+    $(function () {
+        $("#pressMe").one("click", function () {
+            console.log("단 한번만 이벤트 실행");
+        });
+    });
+
+    function dataSend() {
+        console.log("567");
+        var data = $("#input").val();
+        console.log('000');
+        var messageDTO = {
+            result: data
+        };
+        $.ajax({
+            url: "/dataSend",
+            data: messageDTO,
+            type: "POST",
+        }).done(function (fragment) {
+            $("#resultDiv").replaceWith(fragment);
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    console.log("123");
+
+    function AjaxEx(){
+
+        var name = "name="+document.check.name.value;
+
+        $.ajax({
+            url : "/check",
+            type : "post",
+            data : name,
+            dataType : "json",
+            success : function(data) {
+
+                document.getElementById("result").innerHTML = data+"님 반갑습니다.";
+
+            },
+
+            error : function(request) {
+
+                alert("실패");
+
+
+            }
+        });
+
+    }
+
+    function dataPend() {
+
+        var data = $("#input").val();
+
+        var messageDTO = {
+            result: data
+        };
+
+        $.ajax({
+            url: "/dataPend",
+            data: messageDTO,
+            type: "POST",
+        }).done(function (fragment) {
+            $("#resultDive").replaceWith(fragment);
+        });
+    }
+</script>
+</body>
+</html>
